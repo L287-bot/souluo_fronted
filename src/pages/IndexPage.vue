@@ -29,7 +29,7 @@ import PictureList from "@/components/PictureList.vue";
 import UserList from "@/components/UserList.vue";
 import MyDivider from "@/components/MyDivider.vue";
 import { useRoute, useRouter } from "vue-router";
-import myAxios from "../plugins/myAxios";
+import myAxios from "@/plugins/myAxios";
 import { message } from "ant-design-vue";
 
 const postList = ref([]);
@@ -103,6 +103,9 @@ const loadAllData = (params: any) => {
  */
 const loadData = (params: any) => {
   const { type = "post" } = params;
+
+  console.log(type);
+
   if (!type) {
     message.error("类别为空");
     return;
@@ -110,6 +113,7 @@ const loadData = (params: any) => {
   const query = {
     ...params,
     searchText: params.text,
+    type: type,
   };
   myAxios.post("search/all", query).then((res: any) => {
     if (type === "post") {
@@ -125,6 +129,8 @@ const loadData = (params: any) => {
 const searchParams = ref(initSearchParams);
 
 watchEffect(() => {
+  console.log("8080");
+
   searchParams.value = {
     ...initSearchParams,
     text: route.query.text,
